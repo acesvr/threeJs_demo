@@ -1,0 +1,4 @@
+{"type":"FeatureCollection", "features": [
+{"type":"Feature","geometry":{"type":"LineString","coordinates":[[39448500.76198311,3720902.2221919093],[39448465.3504657,3720884.9508408564]]},"properties":{"Entity":"Line","Handle":"43C20","Layer":"煤巷WGMK1000DCJ","LyrFrzn":0,"LyrOn":1,"Color":7,"Linetype":"Continuous","Elevation":-3.49e-9,"LineWt":15,"RefName":"","DocUpdate":"2023-11-13T00:00:00.000Z","DocId":1316232558650000000}},
+{"type":"Feature","geometry":{"type":"LineString","coordinates":[[39448463.28324485,3720883.9425870706],[39448463.721616,3720883.04379303],[39448465.78884231,3720884.052046668],[39448465.35047116,3720884.950840713]]},"properties":{"Entity":"LWPolyline","Handle":"43C6C","Layer":"煤巷WGMK1000DCJ","LyrFrzn":0,"LyrOn":1,"Color":7,"Linetype":"Continuous","Elevation":0,"LineWt":15,"RefName":"","DocUpdate":"2023-11-13T00:00:00.000Z","DocId":1316232558650000000}}
+]}
