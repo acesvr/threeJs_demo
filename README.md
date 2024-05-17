@@ -1,7 +1,5 @@
-# Vue 3 + Vite + Vite
+# Vue 3 + Three.js + Vite
 
-个人练习
+-- 个人练习 --
 
-## Recommended IDE Setup
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
