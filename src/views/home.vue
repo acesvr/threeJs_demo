@@ -2,7 +2,7 @@
   <div class="homePage">
     <div class="HomeTitle">demo</div>
     <div class="HomeContent">
-      <ul>
+      <!-- <ul>
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/page02">地质剖切</router-link></li>
         <li><router-link to="/page07">球阀(拖拽、切面)</router-link></li>
@@ -17,12 +17,22 @@
         <li><router-link to="/page13">层级demo</router-link></li>
         <li><router-link to="/page14">模拟钻孔平台连线</router-link></li>
         <li><router-link to="/page15">底座</router-link></li>
+      </ul> -->
+
+      <ul>
+        <li v-for="menu in pageArr">
+          <router-link :to="menu.path">{{ menu.meta.title }}</router-link>
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import router from "../router/router";
+
+const pageArr = router.options.routes.filter((i) => i.meta?.title);
+</script>
 
 <style scoped>
 .homePage {

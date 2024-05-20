@@ -10,7 +10,13 @@ const routes = [
       title: "三维编辑",
     },
   },
-  { path: "/page02", component: () => import("../views/page02/index.vue") },
+  {
+    path: "/page02",
+    component: () => import("../views/page02/index.vue"),
+    meta: {
+      title: "布尔实现切面",
+    },
+  },
   { path: "/page05", component: () => import("../views/page05/index.vue") },
   {
     path: "/page06",
@@ -80,6 +86,13 @@ const routes = [
     component: () => import("../views/page15/index.vue"),
     meta: {
       title: "底座",
+    },
+  },
+  {
+    path: "/page16",
+    component: () => import("../views/page16/index.vue"),
+    meta: {
+      title: "场景局部辉光",
     },
   },
   // { path: '/uploadModel', component: () => import('../views/uploadModel/index.vue') },

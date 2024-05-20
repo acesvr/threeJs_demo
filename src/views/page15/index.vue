@@ -32,9 +32,32 @@ onMounted(() => {
 
   document.body.appendChild(stats.dom);
 });
+
 onUnmounted(() => {
   stats.domElement.remove();
+  disposeThreeJs();
 });
+
+function disposeThreeJs() {
+  console.log("执行清理");
+  try {
+    renderer.setAnimationLoop();
+    scene.traverse((child) => {
+      if (child.material) {
+        child.material.dispose();
+      }
+      if (child.geometry) {
+        child.geometry.dispose();
+      }
+      child = null;
+    });
+    renderer.dispose();
+    scene.clear();
+    console.log(renderer.info); //查看memery字段即可
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 function init() {
   store.showLoading = true;
