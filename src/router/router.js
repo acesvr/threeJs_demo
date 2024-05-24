@@ -95,6 +95,20 @@ const routes = [
       title: "场景局部辉光",
     },
   },
+  {
+    path: "/page17",
+    component: () => import("../views/page17/index.vue"),
+    meta: {
+      title: "相机定位模型",
+    },
+  },
+  {
+    path: "/page18",
+    component: () => import("../views/page18/index.vue"),
+    meta: {
+      title: "shader",
+    },
+  },
   // { path: '/uploadModel', component: () => import('../views/uploadModel/index.vue') },
 ];
 

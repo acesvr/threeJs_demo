@@ -20,48 +20,18 @@ import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
-import { BloomShader } from "./render/BloomShader"; //
+import { BloomShader } from "./render/BloomShader";
 
 var bloomPass, bloomComposer, finalComposer;
 var bloomLayer;
 var darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
-const materials = {};
+const materials = {}; //不需要辉光的mesh需要设置成黑色材质，此字段暂存mesh的原来材质
 let threeBox;
 const BLOOM_SCENE = 1; //辉光层级
 init();
-onMounted(() => {
-  threeBox = document.getElementById("threeBox");
-  threeBox?.appendChild(renderer.domElement);
-  renderer.setAnimationLoop(animate);
-
-  document.body.appendChild(stats.dom);
-});
-onUnmounted(() => {
-  stats.domElement.remove();
-  destroyThreejs();
-});
-const destroyThreejs = () => {
-  try {
-    renderer.setAnimationLoop();
-    scene.traverse((child) => {
-      if (child.material) {
-        child.material.dispose();
-      }
-      if (child.geometry) {
-        child.geometry.dispose();
-      }
-      child = null;
-    });
-    renderer.dispose();
-    scene.clear();
-    console.log(renderer.info); //查看memery字段即可
-  } catch (e) {
-    console.log(e);
-  }
-};
 
 function init() {
-  initBox();
+  creatBox();
   initComposer();
 }
 
@@ -115,11 +85,6 @@ function restoreMaterial(obj) {
     delete materials[obj.uuid];
   }
 }
-function initBox() {
-  creatBox();
-
-  // loadModel();
-}
 
 function creatBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -140,46 +105,18 @@ function creatBox() {
   }
 }
 
-function loadModel(params) {
-  new FBXLoader().setPath("/models/").load("球阀.fbx", function (object) {
-    object.scale.set(0, 0, 0);
-    object.position.set(0, 0, 0);
-
-    let material = new THREE.MeshPhysicalMaterial({
-      reflectivity: 1, //反射率
-      color: new THREE.Color(0x666666),
-      side: THREE.DoubleSide,
-      metalness: 0.8,
-      roughness: 0.3, // 粗糙度，0表示完全光滑
-      transparent: true,
-      opacity: 1,
-    });
-
-    object.traverse(function (child) {
-      if (child instanceof THREE.Mesh) {
-        child.material = material;
-        child.material.needUpdata = true;
-      }
-    });
-
-    scene.add(object);
-    new TWEEN.Tween(object.scale).to({ x: 0.05, y: 0.05, z: 0.05 }, 1100).easing(TWEEN.Easing.Quadratic.InOut).start();
-    new TWEEN.Tween(object.position).to({ x: 0, y: 5, z: 0 }, 500).start();
-  });
-}
-
 // =====================Click event：start=====================
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
+let raycaster = new THREE.Raycaster();
+let mouse = new THREE.Vector2();
 function onMouseClick(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
   raycaster.setFromCamera(mouse, camera);
   raycaster.layers.enable(BLOOM_SCENE); //raycaster同样有layers概念，给raycaster添加辉光层级确保辉光物体能被拾取
 
-  var intersects = raycaster.intersectObjects(scene.children, true);
+  let intersects = raycaster.intersectObjects(scene.children, true);
   if (intersects.length > 0) {
-    var intersectedObject = intersects[0].object;
+    let intersectedObject = intersects[0].object;
     if (bloomLayer.test(intersectedObject.layers)) {
       intersectedObject.layers.set(0);
     } else {
@@ -205,8 +142,39 @@ const changeLayers = (type) => {
   if (type || type == 0) {
     camera.layers.toggle(type);
 
-    // 此处应该添加逻辑：点击射线的层级和camera层级保持一致，以保证不显示的层级是禁止选取的
+    // 此处应该添加逻辑：点击射线(Raycaster)的层级和camera层级保持一致，以保证不显示的层级是禁止选取的
     // 代码略...
+  }
+};
+
+onMounted(() => {
+  threeBox = document.getElementById("threeBox");
+  threeBox?.appendChild(renderer.domElement);
+  renderer.setAnimationLoop(animate);
+
+  document.body.appendChild(stats.dom);
+});
+onUnmounted(() => {
+  stats.domElement.remove();
+  destroyThreejs();
+});
+const destroyThreejs = () => {
+  try {
+    renderer.setAnimationLoop();
+    scene.traverse((child) => {
+      if (child.material) {
+        child.material.dispose();
+      }
+      if (child.geometry) {
+        child.geometry.dispose();
+      }
+      child = null;
+    });
+    renderer.dispose();
+    scene.clear();
+    console.log(renderer.info);
+  } catch (e) {
+    console.log(e);
   }
 };
 </script>
@@ -229,7 +197,5 @@ const changeLayers = (type) => {
 
   display: flex;
   flex-wrap: wrap;
-
-  // pointer-events: none;
 }
 </style>

@@ -4,7 +4,10 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import Stats from "three/examples/jsm/libs/stats.module.js";
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#000000");
+scene.background = new THREE.Color("#015478");
+
+let axesHelper = new THREE.AxesHelper(10);
+scene.add(axesHelper);
 
 new RGBELoader()
   .setDataType(THREE.FloatType)
